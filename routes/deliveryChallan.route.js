@@ -1,12 +1,12 @@
-// import express from 'express';
-// import DeliveryChallans  from '../controllers/deliveryChalans.controller.js';
+import express from 'express';
+import {deliveryChallans}  from '../controller/deliveryChallan.controller.js';
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.post('/delivery-chalan', DeliveryChallans.addDeliveryChalan);
-// router.get('/delivery-chalans', DeliveryChallans.getDeliveryChalans);
-// router.get('/delivery-chalan/:id', DeliveryChallans.getDeliveryChalanById);
-// router.put('/delivery-chalan/:id', DeliveryChallans.updateDeliveryChalan);
-// router.delete('/delivery-chalan/:id', DeliveryChallans.deleteDeliveryChalan);
+router.post('/add-delivery-chalan', deliveryChallans.addDeliveryChalan);
+router.get('/get-delivery-chalan', deliveryChallans.getAllDeliveryChalans);
+router.get('/get-delivery-chalan', deliveryChallans.getDeliveryChalanById);
+router.put('/update-delivery-chalan', deliveryChallans.updateDeliveryChalan);
+router.delete('/delet-delivery-chalan', deliveryChallans.deleteDeliveryChalan);
 
-// export default router;
+export default router;

@@ -44,7 +44,7 @@ export class partyDetails {
 
     static addOrUpdatePartyById = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.query;
     
             let party = await partyDetail.findByPk(id);
     
@@ -60,7 +60,7 @@ export class partyDetails {
 
     static updatePartyDetail = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.query;
             const party = await partyDetail.findByPk(id);
             if (!party) {
                 return responseGenerator(res, 'Party not found', STATUSCODE.NOT_FOUND);
@@ -75,7 +75,7 @@ export class partyDetails {
 
     static deletePartyDetail = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.query;
             const party = await partyDetail.findByPk(id);
             if (!party) {
                 return responseGenerator(res, 'Party not found', STATUSCODE.NOT_FOUND);

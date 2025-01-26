@@ -1,7 +1,7 @@
-import deliveryChalan from "../models/index.js";
-import responseGenerator from "../utils/responseGenerator.js";
-import STATUSCODE from "../utils/statusCode.js";
-
+import { Op } from "sequelize";
+import { dataNotFound, parameterNotFound, responseGenerator } from "../helper/function.helper.js";
+import { deliveryChalan } from "../models/index.js";
+import STATUSCODE from "../server/statusCode.js";
 export class deliveryChallans {
     static addDeliveryChalan = async (req, res, next) => {
         try {
@@ -31,21 +31,26 @@ export class deliveryChallans {
     // Get All Delivery Chalans with Pagination
     static getAllDeliveryChalans = async (req, res, next) => {
         try {
-            const { page = 1, limit = 10 } = req.query;
-            const offset = (page - 1) * limit;
+            const page = parseInt(req.query.page, 10) || 1;
+        const size = parseInt(req.query.limit, 10) || 10; // Renamed 'limit' to 'size' for consistency
+        const offset = (page - 1) * size;
 
-            const { rows: chalans, count: totalItems } = await deliveryChalan.findAndCountAll({
-                offset: parseInt(offset),
-                limit: parseInt(limit),
-                order: [['createdAt', 'DESC']],
-            });
+        const { count, rows: deliveryChalans } = await deliveryChalan.findAndCountAll({
+            offset,
+            limit: size,
+            order: [['createdAt', 'DESC']],
+        });
 
-            return responseGenerator(res, 'Delivery Chalans fetched successfully', STATUSCODE.OK, {
-                totalItems,
-                totalPages: Math.ceil(totalItems / limit),
-                currentPage: parseInt(page),
-                chalans,
-            });
+        const response = {
+            pageinfo: {
+                total: count,
+                totalPages: Math.ceil(count / size),
+                currentPage: page,
+            },
+            delivery_chalans: deliveryChalans, // Updated key to match consistent naming
+        };
+
+        return responseGenerator(res, 'Delivery Chalans fetched successfully', STATUSCODE.OK, response);
         } catch (error) {
             next(error);
         }
@@ -54,7 +59,7 @@ export class deliveryChallans {
     // Get Single Delivery Chalan by ID
     static getDeliveryChalanById = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.query;
 
             const chalan = await deliveryChalan.findByPk(id);
 
@@ -71,12 +76,11 @@ export class deliveryChallans {
     // Update Delivery Chalan by ID
     static updateDeliveryChalan = async (req, res, next) => {
         try {
-            const { id } = req.params;
-
+            const { id } = req.query;
             const chalan = await deliveryChalan.findByPk(id);
 
             if (!chalan) {
-                return responseGenerator(res, 'Delivery Chalan not found', STATUSCODE.NOTFOUND);
+                return responseGenerator(res, 'Delivery Chalan not found', STATUSCODE.NOT_FOUND);
             }
 
             await chalan.update(req.body);
@@ -90,7 +94,7 @@ export class deliveryChallans {
     // Delete Delivery Chalan by ID
     static deleteDeliveryChalan = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.query;
 
             const chalan = await deliveryChalan.findByPk(id);
 

@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.post('/add-party',partyDetails.addPartyDetail)
 router.get('/get-party',partyDetails.getPartyDetails)
-router.get('/get-party-by-id',partyDetails.addOrUpdatePartyById)
-router.put('/update-party/:id',partyDetails.updatePartyDetail)
-router.delete('/delete-party/:id',partyDetails.deletePartyDetail)
+router.get('/get-party',partyDetails.addOrUpdatePartyById)
+router.put('/update-party',partyDetails.updatePartyDetail)
+router.delete('/delete-party',partyDetails.deletePartyDetail)
 
 export default router;

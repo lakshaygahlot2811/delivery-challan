@@ -88,7 +88,7 @@ export class materialDetails {
     // Get Material Detail by ID
     static getMaterialDetailById = async (req, res, next) => {
         try {
-            const material = await materialDetail.findByPk(req.params.id);
+            const material = await materialDetail.findByPk(req.query.id);
             if (!material) {
                 return responseGenerator(res, 'Material not found', STATUSCODE.NOT_FOUND);
             }
@@ -102,7 +102,7 @@ export class materialDetails {
     static updateMaterialDetail = async (req, res, next) => {
         try {
             const [updated] = await materialDetail.update(req.body, {
-                where: { id: req.params.id }
+                where: { id: req.query.id }
             });
             if (!updated) {
                 return responseGenerator(res, 'Material not found or no changes made', STATUSCODE.NOT_FOUND);
@@ -118,7 +118,7 @@ export class materialDetails {
     static deleteMaterialDetail = async (req, res, next) => {
         try {
             const deleted = await materialDetail.destroy({
-                where: { id: req.params.id }
+                where: { id: req.query.id }
             });
             if (!deleted) {
                 return responseGenerator(res, 'Material not found', STATUSCODE.NOT_FOUND);
