@@ -1,30 +1,60 @@
-import { Op } from "sequelize";
+import { Op,Sequelize } from "sequelize";
 import { dataNotFound, parameterNotFound, responseGenerator } from "../helper/function.helper.js";
-import { deliveryChalan } from "../models/index.js";
+import { deliveryChalan,challanItem } from "../models/index.js";
 import STATUSCODE from "../server/statusCode.js";
 export class deliveryChallans {
     static addDeliveryChalan = async (req, res, next) => {
+        const transaction = await deliveryChalan.sequelize.transaction();
+
         try {
-            const currentDate = new Date();
-            const latestChallan = await deliveryChalan.findOne({
-                order: [['createdAt', 'DESC']],
-            });
-
-            const nextChallanNo = latestChallan
-                ? `SJ-${parseInt(latestChallan.challanNo.split('-')[1]) + 1}`
-                : 'SJ-0001';
-
-            const chalanData = {
-                ...req.body,
-                challanNo: nextChallanNo,
-                challanDate: currentDate,
-            };
-
-            const chalan = await deliveryChalan.create(chalanData);
-
-            return responseGenerator(res, 'Delivery Challan added successfully', STATUSCODE.OK, chalan);
+          const currentDate = new Date();
+    
+          // Get the latest challan number
+          const latestChallan = await deliveryChalan.findOne(
+            {
+              order: [["createdAt", "DESC"]],
+            },
+            { transaction }
+          );
+    
+          // Generate the next challan number
+          const nextChallanNo = latestChallan
+            ? `SJ-${parseInt(latestChallan.challanNo.split("-")[1]) + 1}`
+            : "SJ-0001";
+    
+          // Create delivery challan data
+          const chalanData = {
+            ...req.body,
+            challanNo: nextChallanNo,
+            challanDate: currentDate,
+          };
+    
+          // Insert into deliveryChalans table
+          const chalan = await deliveryChalan.create(chalanData, { transaction });
+    
+          // Insert related challan items (if provided in the request)
+          if (req.body.items && Array.isArray(req.body.items)) {
+            const itemsData = req.body.items.map((item) => ({
+              ...item,
+              challanId: chalan.id,
+            }));
+    
+            await challanItem.bulkCreate(itemsData, { transaction });
+          }
+    
+          // Commit the transaction
+          await transaction.commit();
+          
+          return responseGenerator(
+            res,
+            "Delivery Challan added successfully",
+            STATUSCODE.OK,
+            chalan
+          );
         } catch (error) {
-            next(error);
+          // Rollback the transaction in case of an error
+          await transaction.rollback();
+          next(error);
         }
     };
 

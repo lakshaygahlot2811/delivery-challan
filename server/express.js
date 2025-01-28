@@ -8,7 +8,7 @@ import router from '../routes/index.js';
 import database from '../database/init.sql.js';
 // import {UploadFile} from '../helper/multer.helper.js';
 
-const {materialDetail,partyDetail,deliveryChallan} = router;
+const {materialDetail,partyDetail,deliveryChallan,pdf,uploadImg} = router;
 
 export const initExpress = ()=>{
     const app = express();
@@ -37,6 +37,8 @@ export const initExpress = ()=>{
     app.use("/SJ0001/api/v1/material", materialDetail);
     app.use("/SJ0001/api/v1/party", partyDetail);
     app.use("/SJ0001/api/v1/challan", deliveryChallan);
+    app.use("/SJ0001/api/v1/pdf", pdf);
+    app.use("/SJ0001/api/v1/img", uploadImg);
 
     
     app.use((error, req, res, next) => {

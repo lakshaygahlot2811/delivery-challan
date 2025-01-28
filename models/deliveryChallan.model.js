@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import database from "../database/init.sql.js";
 import ModelName from "../database/model_name.sql.js";
-
+import challanItem from "./challanItem.model.js";
 class deliveryChalans extends Model{}
 
 deliveryChalans.init({
@@ -36,33 +36,21 @@ deliveryChalans.init({
     },
     address: {
         type: DataTypes.STRING,
-        allowNull: true
-    },
-    materialName: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    hsnCode: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    qty: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    rate: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    gst: {
-        type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false,
     },
     totalAmount: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+        },
+    totalQty: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+        },
+    totalAmountInWord: {
         type: DataTypes.STRING,
-        allowNull: true
-    }
-},{
+        allowNull: true,
+        },
+   },{
     modelName: ModelName.deliveryChalans,
     paranoid: true,
     sequelize: database,
@@ -71,3 +59,4 @@ deliveryChalans.init({
 });
 
 export default deliveryChalans;
+
