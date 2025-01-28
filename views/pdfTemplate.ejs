@@ -59,7 +59,7 @@
         }
 
         .oner-detail{
-            margin-top: -28px;
+            margin-top: -50px;
             margin-left: -70px;
         }
         .company-title {
@@ -129,7 +129,7 @@
             text-align: right;
             font-weight: bold;
             font-size: 16px;
-            margin-right: 30px;
+            margin-left: 30px;
             padding: 0;
             margin-top: 0;
 
@@ -137,7 +137,8 @@
 
         .party-address {
             text-align: right;
-            margin-right: 133px;
+            margin-left: -170px;
+            padding: 0;
 
         }
 
@@ -235,7 +236,7 @@
             text-align: center;
             flex-grow: 1;
             margin-left: 80px;
-            margin-top: -23px;
+            margin-top: -90px;
         }
 
         .sign {
@@ -279,6 +280,10 @@
         .roundoff {
             margin-left: -27px;
         }
+
+        .grand-total{
+            margin-left: -10px;
+        }
     </style>
 </head>
 
@@ -294,7 +299,7 @@
         <div class="header">
             
                 <div class="logo-box">
-                    <img class="logo" src="your-logo-url.png" alt="Company Logo">
+                    <img class="logo" src="<%= logoUrl %>" alt="Company Logo">
                 </div>
                 <div class="oner-detail">
                 <div class="company-title">SHREE JEE SUPPLIERS</div>
@@ -302,9 +307,9 @@
                 <div class="contact-detail">Phone : 9829200396 E-Mail : sjsbkn@gmail.com</div>
                 </div>
                 <div class="party-detail">
-                    <div class="party-name"><%= challan.partyName %></div>
-                    <div class="party-address"><%= challan.city %></div>
-                    <div class="party-gst">GST: <%= challan.gstNumber %></div>
+                    <div class="party-name"><%= challanData.partyName %></div>
+                    <div class="party-address"><%= challanData.city %></div>
+                    <div class="party-gst">GST: <%= challanData.gstNumber %></div>
                 </div>
             
         </div>
@@ -312,8 +317,8 @@
     
 
         <div class="challan-details">
-            <div class="challan-no">CHALLAN NO : <%= challan.challanNo %></div>
-            <div class="date">Date : <%= challan.challanDate %></div>
+            <div class="challan-no">CHALLAN NO : <%= challanData.challanNo %></div>
+            <div class="date">Date : <%= challanDate %></div>
         </div>
 
         <div class="table-div">
@@ -330,34 +335,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                   <tr>
-                     <td>1.</td>
-                     <td>MACHINE CHARGES</td>
-                     <td>3209</td>
-                     <td>38</td>
-                     <td>20.00</td>
-                     <td>18.00</td>
-                     <td>760.00</td>
-                    </tr>
-                    <tr>
-                     <td>2.</td>
-                     <td>AP MASKING TAPE 1" 25MTR</td>
-                     <td>4811</td>
-                     <td>6</td>
-                     <td>30.00</td>
-                     <td>18.00</td>
-                     <td>180.00</td>
-                    </tr>
+                    <% challanData.items.forEach((item, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %>.</td>
+                            <td><%= item.materialName %></td>
+                            <td><%= item.hsnCode %></td>
+                            <td><%= item.qty %></td>
+                            <td><%= item.rate %></td>
+                            <td><%= item.gst %></td>
+                            <td><%= item.Amount %></td>
+                        </tr>
+                    <% }); %>
                 </tbody>
             </table>
         </div>
             <div class="total-section">
                 <div class="thank-you">
             THANK YOU. VISIT AGAIN.<br>
-                    <span class="amount-text">Rs. Nine Hundred Forty Only</span>
+                    <span class="amount-text">Rs. <%= challanData.totalAmountInWord %> </span>
                 </div>
                 <div class="totalqty">
-                    Total Qty. :44.00
+                    Total Qty. :<%= challanData.totalQty %>
                 </div>
             </div>
 
@@ -370,11 +368,11 @@
                         <span>A/C NO: 924030016385223</span>
                     </div>
                     <div class=" logo-box-down">
-                        <img class="logo" src="your-logo-url.png" alt="Company Logo">
+                        <img class="logo" src="<%= aisanpaintlogoUrl %>" alt="Company Logo">
                     </div>
                     <div class="rate">
                         <div class="roundoff">Round Off: 0.00</div>
-                        <div><strong>Grand Total: 940.00</strong></div>
+                        <div class="grand-total"><strong>Grand Total: <%= challanData.totalAmount %></strong></div>
                     </div>
                     <div class="signature">
                         <div>For SHREE JEE SUPPLIERS</div>

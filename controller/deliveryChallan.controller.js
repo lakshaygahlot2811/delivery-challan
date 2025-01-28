@@ -2,60 +2,108 @@ import { Op,Sequelize } from "sequelize";
 import { dataNotFound, parameterNotFound, responseGenerator } from "../helper/function.helper.js";
 import { deliveryChalan,challanItem } from "../models/index.js";
 import STATUSCODE from "../server/statusCode.js";
+import numberToWords from "number-to-words";
+
 export class deliveryChallans {
     static addDeliveryChalan = async (req, res, next) => {
-        const transaction = await deliveryChalan.sequelize.transaction();
-
-        try {
-          const currentDate = new Date();
+    //    const transaction = await deliveryChalan.sequelize.transaction();
+ 
+    //     try {
+    //       const currentDate = new Date();
     
-          // Get the latest challan number
-          const latestChallan = await deliveryChalan.findOne(
-            {
-              order: [["createdAt", "DESC"]],
-            },
-            { transaction }
-          );
+    //       // Get the latest challan number
+    //       const latestChallan = await deliveryChalan.findOne(
+    //         {
+    //           order: [["createdAt", "DESC"]],
+    //         },
+    //         { transaction }
+    //       );
     
-          // Generate the next challan number
-          const nextChallanNo = latestChallan
-            ? `SJ-${parseInt(latestChallan.challanNo.split("-")[1]) + 1}`
-            : "SJ-0001";
+    //       // Generate the next challan number
+    //       const nextChallanNo = latestChallan
+    //         ? `SJ-${parseInt(latestChallan.challanNo.split("-")[1]) + 1}`
+    //         : "SJ-0001";
     
-          // Create delivery challan data
-          const chalanData = {
-            ...req.body,
-            challanNo: nextChallanNo,
-            challanDate: currentDate,
-          };
+    //       // Create delivery challan data
+    //       const chalanData = {
+    //         ...req.body,
+    //         challanNo: nextChallanNo,
+    //         challanDate: currentDate,
+    //       };
     
-          // Insert into deliveryChalans table
-          const chalan = await deliveryChalan.create(chalanData, { transaction });
+    //       // Insert into deliveryChalans table
+    //       const chalan = await deliveryChalan.create(chalanData, { transaction });
     
-          // Insert related challan items (if provided in the request)
-          if (req.body.items && Array.isArray(req.body.items)) {
-            const itemsData = req.body.items.map((item) => ({
-              ...item,
-              challanId: chalan.id,
-            }));
+    //       // Insert related challan items (if provided in the request)
+    //       if (req.body.items && Array.isArray(req.body.items)) {
+    //         const itemsData = req.body.items.map((item) => ({
+    //           ...item,
+    //           challanId: chalan.id,
+    //         }));
     
-            await challanItem.bulkCreate(itemsData, { transaction });
-          }
+    //         await challanItem.bulkCreate(itemsData, { transaction });
+    //       }
     
-          // Commit the transaction
-          await transaction.commit();
+    //       // Commit the transaction
+    //       await transaction.commit();
           
-          return responseGenerator(
-            res,
-            "Delivery Challan added successfully",
-            STATUSCODE.OK,
-            chalan
-          );
-        } catch (error) {
-          // Rollback the transaction in case of an error
-          await transaction.rollback();
-          next(error);
+    //       return responseGenerator(
+    //         res,
+    //         "Delivery Challan added successfully",
+    //         STATUSCODE.OK,
+    //         chalan
+    //       );
+    //     } catch (error) {
+    //       // Rollback the transaction in case of an error
+    //       await transaction.rollback();
+    //       next(error);
+    //     }
+    try {
+        const currentDate = new Date();
+    
+        // Get the latest challan number
+        const latestChallan = await deliveryChalan.findOne({
+          order: [["createdAt", "DESC"]],
+        });
+    
+        // Generate the next challan number with zero padding
+        const nextChallanNo = latestChallan
+          ? `SJ-${(parseInt(latestChallan.challanNo.split("-")[1]) + 1).toString().padStart(4, "0")}`
+          : "SJ-0001";
+    
+        // Create delivery challan data
+        const chalanData = {
+          ...req.body,
+          challanNo: nextChallanNo,
+          challanDate: currentDate,
+          totalAmount: req.body.totalAmount,
+          totalAmountInWord: numberToWords.toWords(req.body.totalAmount) + " only",
+        };
+    
+        // Insert into deliveryChalans table
+        const chalan = await deliveryChalan.create(chalanData);
+    
+        // Insert related challan items (if provided in the request)
+        if (req.body.items && Array.isArray(req.body.items)) {
+          const itemsData = req.body.items.map((item) => ({
+            ...item,
+            challanId: chalan.id,
+          }));
+    
+          await challanItem.bulkCreate(itemsData);
         }
+    
+        // Respond with success
+        return responseGenerator(
+          res,
+          "Delivery Challan added successfully",
+          STATUSCODE.OK,
+          chalan
+        );
+      } catch (error) {
+        next(error);
+      }
+    
     };
 
     // Get All Delivery Chalans with Pagination
