@@ -12,31 +12,31 @@ challanItem.init({
     },
     challanId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
       },
       materialName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       hsnCode: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       qty: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       rate: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
       },
       gst: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       Amount: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
       },
       
 },{

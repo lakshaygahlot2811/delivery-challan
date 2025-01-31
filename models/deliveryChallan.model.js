@@ -36,7 +36,7 @@ deliveryChalans.init({
     },
     address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     totalAmount: {
         type: DataTypes.FLOAT,
