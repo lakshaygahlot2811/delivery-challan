@@ -4,6 +4,7 @@ import { materialDetails}  from "../controller/materialDetail.controller.js";
 const router = express.Router();
 
 router.post('/add-material',materialDetails.addMaterialDetail)
+router.get('/get-all-material',materialDetails.getAllMaterial)
 router.get('/get-material',materialDetails.getAllMaterialDetails)
 router.get('/get-material',materialDetails.getMaterialDetailById)
 router.put('/update-material',materialDetails.updateMaterialDetail)
