@@ -71,7 +71,7 @@ export class renderDeliveryChallan {
         }
 
         // Convert HTML to PDF
-        const options = { format: "A4", landscape: true, };
+        const options = { format: "A4"};
         pdf.create(html, options).toFile("uploads/deliveryChallan.pdf", (err, result) => {
           if (err) {
             return res.status(500).send({
