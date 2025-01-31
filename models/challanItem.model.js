@@ -12,7 +12,7 @@ challanItem.init({
     },
     challanId: {
         type: DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
       },
       materialName: {
         type: DataTypes.STRING,
