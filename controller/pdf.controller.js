@@ -48,7 +48,7 @@ export class renderDeliveryChallan {
     : null;
 
     const urlimages= await image.findAll();
-    const logo = urlimages.find(image => image.imageName.includes('shreeJeeLogo'));
+    const logo = urlimages.find(image => image.imageName.includes('Shreejeelogo'));
     const aisanpaintLogo = urlimages.find(image => image.imageName.includes('asianPaintLogo'));
     
     const logoUrl = logo ? `${baseUrl}${logo.imagePath.replace(/\\/g, '/')}` : null;
