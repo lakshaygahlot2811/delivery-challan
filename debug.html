@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Delivery Challan</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 3mm;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .invoice-container {
+            border: 1px solid #000;
+        }
+
+        .gstin {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            border-bottom: 2px solid #000;
+            height: 30px;
+
+        }
+
+        .gstin-item,
+        .gst-delivery,
+        .original-buyer {
+            height: 30px;
+            width: 33.33%;
+            align-items: center;
+            margin: 5px;
+            justify-content: center;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .gstin-item {
+            text-align: left;
+        }
+
+        .gst-delivery {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .original-buyer {
+            text-align: right;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 198mm;
+            padding: 10px;
+            background-color: lightgray;
+            border-bottom: 2px solid #000;
+            text-align: left;
+        }
+
+        .logo-box {
+            width: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+        }
+        .logo-box-down{
+            width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ower-detail {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .party-detail {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            text-align: left;
+            padding-right: 2px;
+        }
+
+
+
+        .company-title {
+            font-weight: bold;
+            font-size: 1.2em
+        }
+
+        .company-details,
+        .contact-detail,
+        .party-name,
+        .party-address,
+        .party-gst {
+            font-size: 0.9em;
+        }
+
+
+        .challan-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            
+
+        }
+
+        .challan-no {
+            text-align: left;
+        }
+
+        .date {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .table-div {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th,
+        td {
+            border: none;
+            padding: 2px 2px;
+            text-align: left;
+        }
+
+        table {
+            border: 1.2px solid black;
+            border-radius: 5px;
+        }
+
+        th {
+            border-bottom: 1.2px solid black;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 1.2px solid black;
+        }
+
+        th {
+            background-color: #f8f8f8;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
+            padding: 10px;
+            border-bottom: 1px solid black;
+        }
+
+        .thank-you {
+            text-align: left;
+            flex: 1;
+        }
+
+        .amount-text {
+            font-style: italic;
+            color: #666;
+        }
+
+        .totalqty {
+            text-align: right;
+            min-width: 150px;
+            margin-right: 12px;
+        }
+
+        .bank-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .bank-name,
+        .rate,
+        .signature {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .sign {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .bank-name {
+            text-align: left;
+        }
+
+        .rate {
+            text-align: left;
+        }
+
+        .signature {
+            flex: 1;
+            text-align: right; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 15px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body class="body">
+    <div class="invoice-container">
+        <div class="gstin">
+            <div class="gstin-item">GSTIN : 08AOPPD8121A1ZA</div>
+            <div class="gst-delivery"> GST DELIVERY CHALLAN</div>
+            <div class="original-buyer">Original for buyer</div>
+        </div>
+
+
+        <div class="header">
+
+            <div class="logo-box">
+                <img class="logo" src="http://147.93.98.94:4200/uploads/1738346383842-shreejee_logo-removebg-preview.png" alt="Company Logo">
+            </div>
+            <div class="ower-detail">
+                <div class="company-title">SHREE JEE SUPPLIERS</div>
+                <div class="company-details">BEHIND KOTHARI HOSPITAL, BIKANER</div>
+                <div class="contact-detail">Phone : 9829200396 E-Mail : sjsbkn@gmail.com</div>
+            </div>
+            <div class="party-detail">
+                <div class="party-name">
+                    MOHAN SINGH JI BHATI
+                </div>
+                <div class="party-address">
+                    BIKANER
+                </div>
+                <div class="party-gst">GST: 
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="challan-details">
+            <div class="challan-no">CHALLAN NO : SJ-0001
+            </div>
+            <div class="date">Date : Jan 31, 2025
+            </div>
+        </div>
+
+        <div class="table-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>PARTICULARS</th>
+                        <th>HSN</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>GST</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                        <tr>
+                            <td>
+                                1.
+                            </td>
+                            <td>
+                                LAKHDANA
+                            </td>
+                            <td>
+                                000
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                700
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                700
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                2.
+                            </td>
+                            <td>
+                                AP WOOD STAIN OAK ROSEWOOD 500ML
+                            </td>
+                            <td>
+                                3213
+                            </td>
+                            <td>
+                                5
+                            </td>
+                            <td>
+                                65
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                325
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                3.
+                            </td>
+                            <td>
+                                AP WOOD STAIN CHARCOL 500ML
+                            </td>
+                            <td>
+                                3214
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                245
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                245
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                4.
+                            </td>
+                            <td>
+                                AP WOODTECH MTO 3LT
+                            </td>
+                            <td>
+                                3814
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                360
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                720
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                5.
+                            </td>
+                            <td>
+                                AP WOODTECH PU THINNER 20LT
+                            </td>
+                            <td>
+                                3213
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                4850
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                9700
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                6.
+                            </td>
+                            <td>
+                                 BRUSH 3&#39;
+                            </td>
+                            <td>
+                                2710
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                150
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                300
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                7.
+                            </td>
+                            <td>
+                                AP WOOD STAIN OAK YELLOW 500ML
+                            </td>
+                            <td>
+                                3213
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                245
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                245
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                8.
+                            </td>
+                            <td>
+                                AP APCO SMOKE GREY 1LT
+                            </td>
+                            <td>
+                                3208
+                            </td>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                280
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                840
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                9.
+                            </td>
+                            <td>
+                                 AP WOOD STAIN TEAK 500ML
+                            </td>
+                            <td>
+                                3213
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                245
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                245
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                10.
+                            </td>
+                            <td>
+                                THINNER 605 20LT
+                            </td>
+                            <td>
+                                3814
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                2010
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                4020
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                11.
+                            </td>
+                            <td>
+                                BRUSH 2&#39;
+                            </td>
+                            <td>
+                                9603
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                100
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                200
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                12.
+                            </td>
+                            <td>
+                                AP WOOD STAIN WALNUT 1LT
+                            </td>
+                            <td>
+                                3213
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                4850
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                9700
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                13.
+                            </td>
+                            <td>
+                                FLAT KALAM NO.12
+                            </td>
+                            <td>
+                                9603
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                60
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                120
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                14.
+                            </td>
+                            <td>
+                                FLAT KALAM NO.12
+                            </td>
+                            <td>
+                                9603
+                            </td>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                96
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                384
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                15.
+                            </td>
+                            <td>
+                                M-SEAL WHITE 500GM
+                            </td>
+                            <td>
+                                3214
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                150
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                300
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                16.
+                            </td>
+                            <td>
+                                3M MASKING TAPE 1&#39; 30MTR
+                            </td>
+                            <td>
+                                4811
+                            </td>
+                            <td>
+                                30
+                            </td>
+                            <td>
+                                40
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                1200
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                17.
+                            </td>
+                            <td>
+                                DUCO WANDA POLYSTER PUTTY 1KG
+                            </td>
+                            <td>
+                                3209
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                475
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                475
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                18.
+                            </td>
+                            <td>
+                                AP WOODTECH EPOXY INSULATOR 4L
+                            </td>
+                            <td>
+                                3208
+                            </td>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                2562
+                            </td>
+                            <td>
+                                18.00
+                            </td>
+                            <td>
+                                7686
+                            </td>
+                        </tr>
+                        
+                </tbody>
+            </table>
+        </div>
+        <div class="total-section">
+            <div class="thank-you">
+                THANK YOU. VISIT AGAIN.<br>
+                <span class="amount-text">Rs. twenty-eight thousand, one hundred thirty only </span>
+            </div>
+            <div class="totalqty">
+                Total Qty. :65
+            </div>
+        </div>
+
+        <div class="bank-details">
+            <!-- <div class="bank-name-diraction"> -->
+            <div class="bank-name">
+                <strong>BANK DETAIL</strong><br>
+                <span>AXIS BANK</span><br>
+                <span>IFSC: UTIB0000335</span><br>
+                <span>A/C NO: 924030016385223</span>
+            </div>
+            <div class=" logo-box-down">
+                <img class="logo" src="http://147.93.98.94:4200/uploads/1738346347392-asianpaint_logo-removebg-preview.png" alt="Company Logo">
+            </div>
+            <div class="rate">
+                <div class="roundoff">Round Off: 0.00</div>
+                <div class="grand-total"><strong>Grand Total: 28130</strong></div>
+            </div>
+            <div class="signature">
+                <div>For SHREE JEE SUPPLIERS</div>
+                <div class="sign">Authorised signatory</div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</body>
+
+</html>

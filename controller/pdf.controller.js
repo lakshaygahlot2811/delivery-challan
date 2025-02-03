@@ -35,6 +35,7 @@ export class renderDeliveryChallan {
         next(error);
       }
     };
+
   static generatePdf = async (req, res, next) => {
     try {
       const challanData = await deliveryChalan.findOne({ where: { id: req.query.id }, include: [{ model: challanItem, as: "items", },], });
@@ -66,35 +67,35 @@ export class renderDeliveryChallan {
       const filePath = path.join(process.cwd(), "/views/pdfTemplate.ejs");
         const html = await ejs.renderFile(filePath, templateData);
 
-        // Launch Puppeteer browser
+
+        // Launch Puppeteer with optimized settings
         const browser = await puppeteer.launch({
-            headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"], 
-        });
-
-        const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: "networkidle0" });
-
-        const pdfPath = path.join(process.cwd(), "uploads", "deliveryChallan.pdf");
-
-        await page.pdf({
-            path: pdfPath,
-            format: "A4",
-            
-        });
-
-        await browser.close();
-
-        // Send the PDF file as a response
-        res.download(pdfPath, "deliveryChallan.pdf", err => {
-            if (err) {
-                console.error("Error sending file:", err);
-                return res.status(500).send("Error downloading PDF.");
-            }
-
-            // Optionally, delete the file after sending it
-            setTimeout(() => fs.unlinkSync(pdfPath), 5000);
-        });
+                    headless: "new",
+                    args: ["--no-sandbox", "--disable-setuid-sandbox"], 
+                });
+       const page = await browser.newPage();
+              await page.setContent(html, { waitUntil: "networkidle0" });
+      
+              const pdfPath = path.join(process.cwd(), "uploads", "deliveryChallan.pdf");
+      
+              await page.pdf({
+                  path: pdfPath,
+                  format: "A4",
+                  
+              });
+      
+              await browser.close();
+      
+              // Send the PDF file as a response
+              res.download(pdfPath, "deliveryChallan.pdf", err => {
+                  if (err) {
+                      console.error("Error sending file:", err);
+                      return res.status(500).send("Error downloading PDF.");
+                  }
+      
+                  // Optionally, delete the file after sending it
+                  setTimeout(() => fs.unlinkSync(pdfPath), 5000);
+              });
     } catch (error) {
       next(error);
     }
