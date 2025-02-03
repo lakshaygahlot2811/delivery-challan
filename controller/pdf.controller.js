@@ -8,7 +8,7 @@ import pdf from "html-pdf";
 import fs from "fs"
 import puppeteer from "puppeteer"
 import { fileURLToPath } from 'url';
-const baseUrl = process.env.BASE_URL || 'http://147.93.98.94:4200/';
+const baseUrl = 'http://147.93.98.94:4200/';
 // Convert `import.meta.url` to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
