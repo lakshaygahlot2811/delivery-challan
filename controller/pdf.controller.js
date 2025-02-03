@@ -54,7 +54,7 @@ export class renderDeliveryChallan {
     
     const logoUrl = logo ? `${baseUrl}${logo.imagePath.replace(/\\/g, '/')}` : null;
     const aisanpaintlogoUrl = aisanpaintLogo ? `${baseUrl}${aisanpaintLogo.imagePath.replace(/\\/g, '/')}` : null;
-    console.log(aisanpaintlogoUrl)
+   
 
       const templateData = {
         challanData: challanData.toJSON(),
