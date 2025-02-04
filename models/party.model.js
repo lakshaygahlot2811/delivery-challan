@@ -20,7 +20,7 @@ partyDetails.init({
         allowNull: true
     },
     partyContactNumber: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: true
     },
     city: {
