@@ -42,6 +42,23 @@ export class partyDetails {
         }
     };
 
+    static getAllParty = async (req, res, next) => {
+        try {
+            const partyList = await partyDetail.findAll({
+                order: [['createdAt', 'DESC']],
+            });
+
+            const response = {
+                total: partyList.length,
+                party_list: partyList,
+            };
+
+            return responseGenerator(res, 'All materials fetched successfully', STATUSCODE.OK, response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     static addOrUpdatePartyById = async (req, res, next) => {
         try {
             const { id } = req.query;
